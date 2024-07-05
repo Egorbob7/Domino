@@ -25,11 +25,10 @@ public class Movement : MonoBehaviour
         walk();
         run();
         Lunge();
-        Jump();
-        CheckingGroung();
-        
 
-        
+
+
+
     }
 
     void walk()
@@ -84,86 +83,12 @@ public class Movement : MonoBehaviour
     }
 
 
-    public bool onGround;
-
-    public float JumpForce = 60;
-    private bool JumpControl;
-    private float JumpTime = 0;
-    public float JumpControlTime = 0.3f;
-
-    public int JumpCount = 2;
-    public int MomentJumpCount = 0;
-    public float DoubleJumpForce = 20;
-
-    
-
+   
    
 
 
-    void Jump()
-    {
-       
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(frontCheck.position, 0.1f);
-        isWallFront = colliders.Length > 0;
-        if (isWallFront == true)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, -0.5f);
-        }
 
-          if (Input.GetKey(KeyCode.Space) && isWallFront)
-        {
-            if (transform.rotation.y == 0)
-            {
-                
-                rb.velocity = new Vector2(rb.velocity.x, JumpForce);
-            }
-            else
-            {
-               
-                rb.velocity = new Vector2(rb.velocity.x, JumpForce);
-            }
-        }
 
-           else if (Input.GetKey(KeyCode.Space))
-        {
-            if (onGround)
-            {
-                JumpControl = true;
-            }
-        }
-        else
-        {
-            JumpControl = false;
-        }
 
-        if (JumpControl)
-        {
-            if ((JumpTime += Time.fixedDeltaTime) < JumpControlTime)
-            {
-                rb.AddForce(Vector2.up * JumpForce / (JumpTime * 10));
-            }
-        }
-        else
-        {
-            JumpTime = 0;
-        }
 
-        if (Input.GetKeyDown(KeyCode.Space) && !onGround && (++MomentJumpCount < JumpCount))
-        {
-            rb.velocity = new Vector2(0, DoubleJumpForce);
-        }
-        if (onGround)
-        {
-            MomentJumpCount = 0;
-        }
-    }
-
-    public Transform GroundCheck;
-    public float checkRadius = 0.5f;
-    public LayerMask Ground; 
-
-    void CheckingGroung()
-    {
-        onGround = Physics2D.OverlapCircle(GroundCheck.position, checkRadius, Ground);
-    }
 }
