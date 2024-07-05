@@ -4,20 +4,18 @@ using UnityEngine;
 
 public class Jump : MonoBehaviour
 {
+    private Rigidbody2D rb;
+    public float jumpForce = 5.0f;
 
- 
-        private Rigidbody2D rb;
-        public float jumpForce = 5.0f;
+    public bool isGround;
+    public float rayDistance = 0.6f;
 
-        public bool isGround;
-        public float rayDistance = 0.6f;
+    public bool doubleJump = false;
 
-        public bool doubleJump = false;
-
-        void Awake()
-        {
-            rb = GetComponent<Rigidbody2D>();
-        }
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
 
     void Update()
     {
@@ -33,15 +31,18 @@ public class Jump : MonoBehaviour
             isGround = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGround)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-        }
-        else if (!doubleJump && rb.velocity.y < 0)
-        {
-            doubleJump = true;
-            rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-        }
+            if (isGround)
+            {
+                rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            }
+            else if (!doubleJump && rb.velocity.y < 0)
+            {
+                doubleJump = true;
+                rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            }
+        }    
     }
-    }
+}
 
